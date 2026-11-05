@@ -1,19 +1,14 @@
 const Contact = require("../model/contact_model");
-const nodemailer = require("nodemailer");
+const { Resend } = require('resend');
+
+// Initialize Resend with your API key from environment variables
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Simple email regex validator
 const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
 
 const submitContactForm = async (req, res) => {
   try {
@@ -73,16 +68,14 @@ const submitContactForm = async (req, res) => {
     await newContact.save();
     console.log("✅ Contact successfully saved to MongoDB!");
 
-    // 6. Send email notification
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+    // 6. Send email notification via Resend HTTP API (Port 443 - Render Safe)
+    await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>',
+      to: process.env.EMAIL_USER, // Uses your environment variable for your receiving email
       subject: `🚀 New Portfolio Inquiry: ${type} from ${firstName}`,
       text: `You have a new message from your portfolio website!\n\nName: ${firstName}\nEmail: ${email}\nEnquiry Type: ${type}\n\nMessage:\n${comment}`,
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("📧 Email notification sent successfully!");
+    });
+    console.log("📧 Email notification sent successfully via Resend!");
 
     // 7. Success response to frontend
     return res.status(200).json({
