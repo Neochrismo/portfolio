@@ -1,10 +1,10 @@
 const Contact = require("../model/contact_model");
 const { Resend } = require('resend');
 
-// Initialize Resend with your API key from environment variables
+// Initialize Resend with API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Simple email regex validator
+// email regex validator
 const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -26,7 +26,7 @@ const submitContactForm = async (req, res) => {
       });
     }
 
-    // 3. Strict security check: Reject HTML injection markers
+    // 3. Strict security check
     const unsafeRegex = /[<>"`/|]/;
     if (unsafeRegex.test(firstName) || unsafeRegex.test(comment)) {
       return res.status(400).json({
@@ -57,7 +57,7 @@ const submitContactForm = async (req, res) => {
       });
     }
 
-    // 5. Save cleaned data to MongoDB
+    // 5. Save data to MongoDB
     const newContact = new Contact({
       firstName,
       email,
@@ -71,7 +71,7 @@ const submitContactForm = async (req, res) => {
     // 6. Send email notification via Resend HTTP API (Port 443 - Render Safe)
     await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: process.env.EMAIL_USER, // Uses your environment variable for your receiving email
+      to: process.env.EMAIL_USER,
       subject: `🚀 New Portfolio Inquiry: ${type} from ${firstName}`,
       text: `You have a new message from your portfolio website!\n\nName: ${firstName}\nEmail: ${email}\nEnquiry Type: ${type}\n\nMessage:\n${comment}`,
     });

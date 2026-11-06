@@ -23,7 +23,7 @@ const contactSchema = new mongoose.Schema({
     trim: true,
     minlength: 25,
     maxlength: 3000
-    // 🟢 Removed the restrictive 'match' property so normal sentences with spaces and punctuation are accepted!
+
   },
 }, { timestamps: true });
 

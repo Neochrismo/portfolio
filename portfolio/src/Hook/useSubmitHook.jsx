@@ -7,13 +7,9 @@ const useSubmit = () => {
   const submit = async (url, data) => {
     setLoading(true);
     try {
-      // Smart URL resolution: 
-      // If 'url' passed from the component is already a full URL, use it.
-      // Otherwise, combine VITE_API_URL (or localhost fallback) with the relative path.
       let backendUrl = url;
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-        // Ensure clean slashes so we don't get double slashes like //contact
         const cleanBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
         const cleanPath = url.startsWith("/") ? url : `/${url}`;
         backendUrl = `${cleanBase}${cleanPath}`;

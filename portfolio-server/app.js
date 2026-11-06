@@ -8,16 +8,16 @@ const helmet = require("helmet");
 
 const app = express();
 
-// 1. CRITICAL for Render: Trust the proxy so rate limiting works per user IP
+// Trust the proxy so rate limiting works per user IP
 app.set("trust proxy", 1);
 
-// 2. Security headers
+// Security headers
 app.use(helmet());
 
-// 3. Connect to MongoDB database
+// Connect to MongoDB database
 connectDB();
 
-// 4. Strict CORS configuration for production & local development
+// Strict CORS configuration for production & local development
 const allowedOrigins = [
   "https://neochrismo.netlify.app", // Your production frontend on Netlify
   "http://localhost:5173",          // Local Vite dev server

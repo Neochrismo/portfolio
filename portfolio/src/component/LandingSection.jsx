@@ -19,7 +19,7 @@ const LandingSection = () => {
   return (
     <FullScreenSection display="flex" flexDirection="column" justifyContent="center" py={20}>
       <VStack spacing={16} w="full" maxW="1200px" mx="auto" px={{ base: 4, md: 8 }}>
-        
+
         {/* --- MAIN TITLE --- */}
         <VStack spacing={2} textAlign="center">
           <Heading as="h1" textStyle={{ base: "2xl", md: "5xl" }} fontWeight="bold">
@@ -27,7 +27,7 @@ const LandingSection = () => {
           </Heading>
         </VStack>
 
-        {/* --- SECTION 1: Intro (Text Left, Image Right) --- */}
+        {/* --- SECTION 1: Intro --- */}
         <Stack
           direction={{ base: "column", md: "row" }}
           spacing={{ base: 6, md: 12 }}
@@ -56,7 +56,7 @@ const LandingSection = () => {
           </Box>
         </Stack>
 
-        {/* --- SECTION 2: Story Section (Heading + Image Left, Text Right) --- */}
+        {/* --- SECTION 2: Story Section --- */}
         <VStack spacing={8} align="stretch" w="full">
           <Heading
             as="h2"
