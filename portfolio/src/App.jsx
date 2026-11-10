@@ -7,6 +7,7 @@ import Services from './component/KeyServices';
 import HeroSection from './component/HeroSection';
 import { Box } from '@chakra-ui/react';
 import Alert from './component/Alert';
+import AIChatWidget from './component/AIChatWidget';
 
 function App(){
   return (
@@ -18,6 +19,7 @@ function App(){
         <ContactMeSection />
         <Services />
         <Footer />
+        <AIChatWidget />
       </Box>
   );
 }
