@@ -10,7 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import TypewriterMessage from "./TypeWriter";
-import {FullScreenSection} from "./FullScreenSection";
+import FullScreenSection from "./FullScreenSection";
 
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
