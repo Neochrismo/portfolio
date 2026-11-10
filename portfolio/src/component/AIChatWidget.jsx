@@ -10,6 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import TypewriterMessage from "./TypeWriter";
+import {FullScreenSection} from "./FullScreenSection";
 
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -117,6 +118,9 @@ const AIChatWidget = () => {
   };
 
   return (
+    <FullScreenSection
+    display="flex"
+    >
     <Box position="fixed" bottom="20px" right="20px" zIndex="1000">
       {!isOpen && (
         <Button
@@ -267,6 +271,7 @@ const AIChatWidget = () => {
         </Flex>
       )}
     </Box>
+    </FullScreenSection>
   );
 };
 
