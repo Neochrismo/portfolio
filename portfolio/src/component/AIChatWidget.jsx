@@ -10,7 +10,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import TypewriterMessage from "./TypeWriter";
-import FullScreenSection from "./FullScreenSection";
 
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,6 +67,7 @@ const AIChatWidget = () => {
       // Add initial placeholder for the AI response
       setMessages((prev) => [...prev, { sender: "ai", text: "" }]);
       setLoading(false);
+      setIsTyping(true); // <- was missing
 
       let isFinished = false;
 
@@ -105,6 +105,7 @@ const AIChatWidget = () => {
       }
     } catch {
       console.error("AI Chat SSE Error encountered");
+      setIsTyping(false); // make sure the input never stays locked after an error
       setMessages((prev) => [
         ...prev,
         {
@@ -118,9 +119,6 @@ const AIChatWidget = () => {
   };
 
   return (
-    <FullScreenSection
-    display="flex"
-    >
     <Box position="fixed" bottom="20px" right="20px" zIndex="1000">
       {!isOpen && (
         <Button
@@ -142,7 +140,7 @@ const AIChatWidget = () => {
         <Flex
           direction="column"
           w={{ base: "290px", sm: "340px" }}
-          h="440px"
+          h="min(440px, 75dvh)"
           bg="white"
           borderRadius="xl"
           shadow="2xl"
@@ -253,16 +251,25 @@ const AIChatWidget = () => {
                 size="sm"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                bg="white"
+                color="gray.800"
+                _placeholder={{ color: "gray.500" }}
+                _disabled={{ opacity: 0.7 }}
                 borderColor="gray.300"
                 borderRadius="md"
-                disabled={loading || isTyping}
+                fontSize="16px"
+                isDisabled={loading || isTyping}
               />
               <Button
                 type="submit"
-                colorScheme="blue"
+                bg="blue.500"
+                color="white"
+                _hover={{ bg: "blue.600" }}
+                _active={{ bg: "blue.700" }}
+                _disabled={{ opacity: 0.6, cursor: "not-allowed" }}
                 size="sm"
                 isLoading={loading}
-                disabled={isTyping}
+                isDisabled={isTyping}
               >
                 Send
               </Button>
@@ -271,7 +278,6 @@ const AIChatWidget = () => {
         </Flex>
       )}
     </Box>
-    </FullScreenSection>
   );
 };
 
